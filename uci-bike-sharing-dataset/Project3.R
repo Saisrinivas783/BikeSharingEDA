@@ -19,7 +19,6 @@ library(dplyr)
 
 
 # Hour Of the Day v/s Count
-
 hourly_total_counts <- bike_df %>%
   group_by(Hour) %>%
   summarise(total_rental_count = sum(Total_count) / 1000)
