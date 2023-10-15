@@ -13,10 +13,14 @@ bike_df[, categorical_col] <- lapply(bike_df[, categorical_col], factor)
 # Check for null values
 null_check <- colSums(is.na(bike_df))
 print(null_check)
+str(bike_df)
 
+#libraries used
 library(ggplot2)
 library(dplyr)
-
+library(scales)
+library(gridExtra)
+library(grid)
 
 # Hour Of the Day v/s Count
 hourly_total_counts <- bike_df %>%
@@ -32,6 +36,7 @@ ggplot(hourly_total_counts, aes(x = factor(Hour), y = total_rental_count)) +
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 
 
