@@ -127,3 +127,40 @@ ggplot(hourly_total_counts, aes(x = factor(Hour), y = total_rental_count)) +
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Day of the Week v/s Total Casual User Count
+casual_by_weekday <- bike_df %>%
+  group_by(Weekday) %>%
+  summarise(total_casual_count = sum(Casual/1000)) 
+#===================================================
+# Day of the Week v/s Total Registered User Count
+registered_by_weekday <- bike_df %>%
+  group_by(Weekday) %>%
+  summarise(total_registered_count = sum(Registered/1000))
+
+# Define the order of weekdays for proper sorting in the bar chart
+weekday_order <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+
+# Create the bar charts
+grid.arrange(
+  ggplot(casual_by_weekday, aes(x = factor(Weekday, levels = 0:6), y = total_casual_count)) +
+    geom_bar(stat = "identity", fill = "orange") +
+    labs(
+      title = "Casual User Bike  Counts by Day of the Week",
+      x = "Day of the Week",
+      y = "Total Casual User Count(In Thousands)"
+    ) +
+    scale_x_discrete(labels = weekday_order) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)),
+  
+  ggplot(registered_by_weekday, aes(x = factor(Weekday, levels = 0:6), y = total_registered_count)) +
+    geom_bar(stat = "identity", fill = "lightgreen") +
+    labs(
+      title = "Registered User Bike  Counts by Day of the Week",
+      x = "Day of the Week",
+      y = "Total Registered User Count(In Thousands)"
+    ) +
+    scale_x_discrete(labels = weekday_order) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)), ncol=2)
