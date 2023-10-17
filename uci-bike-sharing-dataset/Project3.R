@@ -229,3 +229,146 @@ ggplot(bike_df, aes(x = factor(Weather_condition, labels = weather_names), y = T
     title = 'Weather Condition Distribution of Counts'
   )
 #=============================================================
+
+#Question 3
+
+# Working Day For Casual Vs Registered
+
+# Calculate the average number of casual bike rentals on working days and non-working days
+avg_casual_by_workingday <- bike_df %>%
+  group_by(Workingday) %>%
+  summarize(AvgCasual = mean(Casual))
+
+# Calculate the average number of registered bike rentals on working days and non-working days
+avg_registered_by_workingday <- bike_df %>%
+  group_by(Workingday) %>%
+  summarize(AvgReg = mean(Registered))
+
+# Create a side-by-side bar plot for casual and registered rentals on working days vs. non-working days
+grid.arrange(
+  # Create a bar plot for casual rentals
+  ggplot(avg_casual_by_workingday, aes(x = factor(Workingday), y = AvgCasual)) +
+    geom_bar(stat = "identity", fill = "lightblue") +
+    labs(title = "Average Casual Bike Rentals on Working Day vs. Non-Working Day",
+         x = "Casual",
+         y = "Average Casual Rentals") +
+    theme_minimal() + scale_x_discrete(labels = c("0" = "Non-Working Day", "1" = "Working Day")),
+  
+  # Create a bar plot for registered rentals
+  ggplot(avg_registered_by_workingday, aes(x = factor(Workingday), y = AvgReg)) +
+    geom_bar(stat = "identity", fill = "orange") +
+    labs(title = "Average Registered Bike Rentals on Working Day vs. Non-Working Day",
+         x = "Registered",
+         y = "Average Registered Rentals") +
+    theme_minimal() + scale_x_discrete(labels = c("0" = "Non-Working Day", "1" = "Working Day")),
+  ncol = 2
+)
+
+avg_casual_by_holiday <- bike_df %>%
+  group_by(Holiday) %>%
+  summarize(AvgCasual = mean(Casual))
+
+avg_registered_by_holiday <- bike_df %>%
+  group_by(Holiday) %>%
+  summarize(AvgReg = mean(Registered))
+
+grid.arrange(
+  # Create a bar plot to compare the average number of casual bike rentals on holidays vs. non-holidays
+  
+  ggplot(avg_casual_by_holiday, aes(x = factor(Holiday), y = AvgCasual)) +
+    geom_bar(stat = "identity", fill = "lightblue") +
+    labs(title = "Average Casual Bike Rentals on Holiday vs. Non-Holiday",
+         x = "Casual",
+         y = "Average Casual Rentals") +
+    theme_minimal()+  scale_x_discrete(labels = c("0" = "Non-Holiday", "1" = "Holiday"))
+  ,
+  
+  # Create a bar plot to compare the average number of Registered bike rentals on holidays vs. non-holidays
+  ggplot(avg_registered_by_holiday, aes(x = factor(Holiday), y = AvgReg)) +
+    geom_bar(stat = "identity", fill = "orange") +
+    labs(title = "Average Registered Bike Rentals on Holiday vs. Non-Holiday",
+         x = "Registered",
+         y = "Average Registered Rentals") +
+    theme_minimal()+  scale_x_discrete(labels = c("0" = "Non-Holiday", "1" = "Holiday"))
+  
+  , ncol=2)
+#=========================
+#Month-Wise
+
+ggplot(bike_df, aes(x = factor(Month), y = Total_count/1000, fill = factor(Weekday))) +
+  geom_col() +
+  theme_bw() +
+  labs(
+    x = 'Month',
+    y = 'Total Count(Thousands)',
+    title = 'Month-wise Weekly Total Rental Distribution of Counts'
+  )
+
+#============================
+
+
+# Create separate box plots for each variable
+box_plot_total_count <- ggplot(bike_df, aes(x = "", y = Total_count, fill = "Total_count")) +
+  geom_boxplot() +
+  labs(x = "", y = "Total Count", fill = "Variable") +
+  theme_minimal()
+
+box_plot_casual <- ggplot(bike_df, aes(x = "", y = Casual, fill = "Casual")) +
+  geom_boxplot() +
+  labs(x = "", y = "Casual", fill = "Variable") +
+  theme_minimal()
+
+box_plot_registered <- ggplot(bike_df, aes(x = "", y = Registered, fill = "Registered")) +
+  geom_boxplot() +
+  labs(x = "", y = "Registered", fill = "Variable") +
+  theme_minimal()
+
+box_plot_temperature <- ggplot(bike_df, aes(x = "", y = Temperature, fill = "Temperature")) +
+  geom_boxplot() +
+  labs(x = "", y = "Temperature", fill = "Variable") +
+  theme_minimal()
+
+box_plot_windspeed <- ggplot(bike_df, aes(x = "", y = Windspeed, fill = "Windspeed")) +
+  geom_boxplot() +
+  labs(x = "", y = "Windspeed", fill = "Variable") +
+  theme_minimal()
+
+box_plot_humidity <- ggplot(bike_df, aes(x = "", y = Humidity, fill = "Humidity")) +
+  geom_boxplot() +
+  labs(x = "", y = "Humidity", fill = "Variable") +
+  theme_minimal()
+
+# Create a grid of box plots
+grid.arrange(box_plot_total_count, box_plot_casual, box_plot_registered, box_plot_temperature, box_plot_windspeed, box_plot_humidity, ncol = 3)
+
+#===========================
+#Relations With Temp,Humidity
+
+ggplot(bike_df, aes(x = Temperature, y = Total_count, color = Season)) +
+  geom_point() +
+  labs(
+    x = "Temperature",
+    y = "Count of all Bikes Rented",
+    title = "Count vs. Temperature"
+  ) +
+  theme_minimal()
+
+ggplot(bike_df, aes(x = Humidity, y = Total_count, color = Season)) +
+  geom_point() +
+  labs(
+    x = "Humidity",
+    y = "Count of all Bikes Rented",
+    title = "Count vs. Humidity"
+  ) +
+  theme_minimal()
+
+
+ggplot(bike_df, aes(x = Windspeed, y = Total_count, color = Season)) +
+  geom_point() +
+  labs(
+    x = "Wind Speed",
+    y = "Count of all Bikes Rented",
+    title = "Count vs. Wind Speed"
+  ) +
+  theme_minimal()
+#==================
