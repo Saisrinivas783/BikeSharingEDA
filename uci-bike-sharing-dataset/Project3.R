@@ -133,6 +133,12 @@ casual_by_weekday <- bike_df %>%
   group_by(Weekday) %>%
   summarise(total_casual_count = sum(Casual/1000)) 
 #===================================================
+
+# Day of the Week v/s Total Casual User Count
+casual_by_weekday <- bike_df %>%
+  group_by(Weekday) %>%
+  summarise(total_casual_count = sum(Casual/1000)) 
+
 # Day of the Week v/s Total Registered User Count
 registered_by_weekday <- bike_df %>%
   group_by(Weekday) %>%
@@ -164,3 +170,62 @@ grid.arrange(
     scale_x_discrete(labels = weekday_order) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)), ncol=2)
+
+
+#====================================================
+#Month-wise
+grid.arrange(
+  ggplot(bike_df, aes(x = factor(Month, labels = month.abb), y = Casual)) +
+    geom_bar(stat = "identity", fill = "skyblue") +
+    labs(
+      x = "Month",
+      y = "Casual Count",
+      title = "Month-wise Casual User Bike Sharing "
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)),
+  
+  ggplot(bike_df, aes(x = factor(Month, labels = month.abb), y = Registered/1000)) +
+    geom_bar(stat = "identity", fill = "orange") +
+    labs(
+      x = "Month",
+      y = "Registered Count(in thousands)",
+      title = "Month-wise Registered User Bike Sharing "
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)),
+  ncol=2
+)
+#====================================================
+#Season-Wise
+
+
+bike_df$Season <- factor(bike_df$Season, levels = c(1, 2, 3, 4), labels = c("spring", "summer", "fall", "winter"))
+
+# Create the bar plot
+ggplot(bike_df, aes(x = Season, y = Total_count/1000, fill = Season)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    x = "Season",
+    y = "Count(In thousands)",
+    title = "Counts of Bike Rentals by Season"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = c("spring" = "brown", "summer" = "red", "fall" = "orange", "winter" = "skyblue"))
+
+#================================================================
+
+# Weather
+
+weather_names <- c("Clear, Few clouds", "Mist + Cloudy", "Light Snow, Light Rain", "Heavy Rain + Ice Pallets")
+
+# Create a bar plot with weather condition names
+ggplot(bike_df, aes(x = factor(Weather_condition, labels = weather_names), y = Total_count, fill = factor(Season))) +
+  geom_col() +
+  theme_bw() +
+  labs(
+    x = 'Weather Condition',
+    y = 'Total Count',
+    title = 'Weather Condition Distribution of Counts'
+  )
+#=============================================================
