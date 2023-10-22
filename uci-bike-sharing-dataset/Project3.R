@@ -372,3 +372,34 @@ ggplot(bike_df, aes(x = Windspeed, y = Total_count, color = Season)) +
   ) +
   theme_minimal()
 #==================
+
+#ANOVA TESTS
+#Effect of Holiday On Casual Users
+casual_holiday = aov(Casual ~ Holiday, data = bike_df)
+casual__holidaysummary = summary(casual_holiday)
+casual__holidaysummary
+#Overall, the summary table shows that the Holiday variable has a significant and positive effect on the Casual variable. This means that there are more casual bike rentals on holidays than on non-holidays.
+
+#Effect of Working Day on Registered Users
+Registered_workingday = aov(Registered ~ Workingday, data = bike_df)
+Registered_workingday = summary(Registered_workingday)
+Registered_workingday
+#The "F value" of 319.3 is quite large, suggesting a substantial difference between the groups.
+#The "Pr(>F)" value is essentially zero (<2e-16), indicating an extremely significant result.
+#The conclusion you can draw from this analysis is that there is strong statistical evidence to support the idea that the "Workingday" variable has a significant effect on the number of registered users. 
+
+#Hour Vs Casual Count
+
+bike_df$Hour <- as.numeric(as.character(bike_df$Hour))
+#Because 'Estimated effects may be unbalanced'
+# Create a new variable to group hours
+bike_df <- bike_df %>%
+  mutate(TimeOfDay = case_when(
+    Hour >= 6 & Hour < 12 ~ "Morning",
+    Hour >= 12 & Hour < 18 ~ "Afternoon",
+    TRUE ~ "Evening"
+  ))
+unique(bike_df$TimeOfDay)
+time_of_day_anova <- aov(Casual ~ TimeOfDay, data = bike_df)
+time_of_day_summary <- summary(time_of_day_anova)
+time_of_day_summary
