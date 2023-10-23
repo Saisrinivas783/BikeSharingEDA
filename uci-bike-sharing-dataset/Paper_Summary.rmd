@@ -54,8 +54,6 @@ the specific seasons that characterized this time frame.
 ## Dataset characteristics
 
 Both hour.csv and day.csv have the following fields, except hr which is not available in day.csv
-	
-
 
 1. **instant**: A unique identifier for each record in the dataset.
 
@@ -119,7 +117,62 @@ The purpose of each library we've used
 5. `grid`: An underlying graphics package that allows for advanced customization and control over the layout and appearance of plots.
 
 
+## Data Pre-Processing
+**File Reading**
+```{r, echo=TRUE}
+bike_df <- read.csv("hour.csv")
+dimensions<-dim(bike_df)
+```
+The Dimensions of our Data Set are `r {dimensions}`.
 
+**Data Overview**
+```{r}
+head(bike_df, 5)
+```
+**Data Types**
+
+```{r}
+sapply(bike_df, class)
+```
+
+By look of this we can enhance the clarity and comprehensibility of the data, by renaming all the columns and Converting integer-type attributes like 'Season,' 'Year,' 'Month,' 'Hour,' 'Holiday,' 'Weekday,' and 'Workingday' into categorical variables.
+
+**Enchancing data**
+In our meticulous data refinement process, we embarked on a transformative journey of renaming the columns, breathing new life into our dataset:
+
+**Renaming The Columns**
+This transformation ensures that our dataset is not just a collection of numbers and characters but a rich ensemble of meaningful, categorized attributes, setting the stage for in-depth analysis and insights. Each attribute, meticulously redefined, narrates a unique tale, contributing to the vibrant tapestry of our data exploration.
+```{r}
+names(bike_df) <- c('Instant','Date','Season','Year','Month','Hour','Holiday','Weekday','Workingday','Weather_condition','Temperature','Feelslike_temp','Humidity','Windspeed','Casual','Registered','Total_count')
+
+head(bike_df)
+
+```
+**Converting to Factors**
+
+```{r}
+categorical_col <- c('Season', 'Year', 'Month', 'Hour', 'Holiday', 'Weekday', 'Workingday', 'Weather_condition')
+bike_df[, categorical_col] <- lapply(bike_df[, categorical_col], factor)
+sapply(bike_df, class)
+
+```
+
+**Nulls Handling**
+
+```{r}
+
+null_check <- colSums(is.na(bike_df))
+null_check
+```
+No missing values were found in our dataset, ensuring its completeness and integrity. This solid foundation allows confident analysis, leaving no room for uncertainty.
+
+#EDA
+In conducting Exploratory Data Analysis (EDA) for the bike sharing dataset, the process began with loading and inspecting the data, gaining an initial understanding of the variables and their formats. An evaluation for missing values and an assessment of data types, including integers, floats, and objects, were conducted to ensure data quality.
+Outlier detection techniques, primarily utilizing box plots, were employed to identify outliers. We used histograms, pie charts and scatter plots to identify patterns and relationships between features.
+For more in-depth analysis, statistical testing method - ANOVA was applied to validate hypotheses concerning various variables. Throughout the process, an iterative approach was maintained, allowing for revisits to earlier analyses based on new insights or questions that arose during the exploration.
+In conclusion, the EDA process yielded valuable insights into the dataset. Patterns, correlations, and trends were identified, providing a solid foundation for formulating hypotheses for subsequent investigations or modeling endeavors. EDA, being an iterative process, allows for continuous refinement and exploration as new questions and areas of interest emerge
+
+##What Are the Year-wise Distribution Patterns of Casual and Registered Bike Sharing Users?
 
 
 # Tests
