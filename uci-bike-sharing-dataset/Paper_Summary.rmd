@@ -43,3 +43,80 @@ Bike sharing programs generate a lot of data, such as travel time, start and end
 ## Problem Statement
 
 The goal of this case is to perform Exploratory Data Analysis (EDA) on daily bike rental counts, considering environmental and seasonal variables. This EDA aims to understand the historical usage patterns of a bike-sharing program in Washington, D.C., in relation to weather, environmental factors, and other data. We are interested in exploring the relationships between bike rentals and various factors such as season, temperature, and weather conditions. Our objective is to build insights and understanding from the data 
+
+
+
+
+
+
+
+# Tests
+
+```{r}
+#Effect of Holiday On Casual Users
+casual_holiday = aov(Casual ~ Holiday, data = bike_df)
+casual__holidaysummary = summary(casual_holiday)
+casual__holidaysummary
+```
+
+From the ANOVA above analysis with the "Holiday" variable revealed a highly significant effect. There are statistically significant differences in the response variable between holidays and non-holidays, as indicated by the low p-value (3.2e-05) and the F-value of 17.3. This suggests that the "Holiday" variable has a substantial impact on the response variable.
+
+```{r}
+#Effect of Working Day on Registered Users
+Registered_workingday = aov(Registered ~ Workingday, data = bike_df)
+Registered_workingday = summary(Registered_workingday)
+Registered_workingday
+```
+
+From the above ANOVA analysis involving the "Workingday" variable indicates a highly significant effect. There are substantial and statistically significant differences in the response variable between working days and non-working days, as evident from the very low p-value (<2e-16) and a substantial F-value of 319. These results suggest that the "Workingday" variable significantly impacts the response variable.
+
+```{r}
+#Hour Vs Casual Count
+
+bike_df$Hour <- as.numeric(as.character(bike_df$Hour))
+#Because 'Estimated effects may be unbalanced'
+# Create a new variable to group hours
+bike_df <- bike_df %>%
+  mutate(TimeOfDay = case_when(
+    Hour >= 6 & Hour < 12 ~ "Morning",
+    Hour >= 12 & Hour < 18 ~ "Afternoon",
+    TRUE ~ "Evening"
+  ))
+unique(bike_df$TimeOfDay)
+time_of_day_anova <- aov(Casual ~ TimeOfDay, data = bike_df)
+time_of_day_summary <- summary(time_of_day_anova)
+time_of_day_summary
+```
+
+The above ANOVA analysis involving the "TimeOfDay" variable reveals a highly significant effect. There are substantial and statistically significant differences in the response variable across different times of the day. The very low p-value (<2e-16) and a substantial F-value of 2174 indicate that the "TimeOfDay" variable significantly impacts the response variable(Casual User Count).
+
+```{r}
+time_of_day_anova_R <- aov(Registered ~ TimeOfDay, data = bike_df)
+time_of_day_summary_R <- summary(time_of_day_anova_R)
+time_of_day_summary_R
+```
+
+The above ANOVA analysis involving the "TimeOfDay" variable reveals a highly significant effect. There are substantial and statistically significant differences in the response variable across different times of the day. The very low p-value (<2e-16) and a substantial F-value of 1047 indicate that the "TimeOfDay" variable significantly impacts the response variable(Registered User Count)
+
+```{r}
+#Day Of the week Vs Casual
+day_of_the_week_anova_c <- aov(Casual ~ Weekday, data = bike_df)
+day_of_the_week_summary_C <- summary(day_of_the_week_anova_c)
+day_of_the_week_summary_C
+```
+
+The ANOVA analysis involving the "Weekday" variable demonstrates a highly significant effect. There are substantial and statistically significant differences in the response variable across different days of the week. The very low p-value (<2e-16) and a substantial F-value of 294 indicate that the "Weekday" variable significantly impacts the response variable(Casual User count).
+
+```{r}
+#Day Of the week Vs Registered
+
+day_of_the_week_anova_r <- aov(Registered ~ Weekday, data = bike_df)
+day_of_the_week_summary_r <- summary(day_of_the_week_anova_r)
+day_of_the_week_summary_r
+```
+
+The ANOVA analysis for the "Weekday" variable indicates a highly significant effect on the response variable. There are substantial and statistically significant differences in the response variable across different days of the week. The very low p-value (<2e-16) and a substantial F-value of 46.1 suggest that the "Weekday" variable significantly impacts the response variable(Registered User Count).
+
+```{r}
+
+```
