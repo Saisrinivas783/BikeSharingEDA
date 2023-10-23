@@ -44,7 +44,79 @@ Bike sharing programs generate a lot of data, such as travel time, start and end
 
 The goal of this case is to perform Exploratory Data Analysis (EDA) on daily bike rental counts, considering environmental and seasonal variables. This EDA aims to understand the historical usage patterns of a bike-sharing program in Washington, D.C., in relation to weather, environmental factors, and other data. We are interested in exploring the relationships between bike rentals and various factors such as season, temperature, and weather conditions. Our objective is to build insights and understanding from the data 
 
+## Data
 
+This dataset consists around 17,000 records, offering comprehensive details about the rental activity of 
+bikes on both an hourly and daily basis throughout the years 2011 and 2012 within the Capital Bikeshare 
+system. Furthermore, it encompasses relevant data concerning the prevailing weather conditions and 
+the specific seasons that characterized this time frame.
+
+## Dataset characteristics
+
+Both hour.csv and day.csv have the following fields, except hr which is not available in day.csv
+	
+
+
+1. **instant**: A unique identifier for each record in the dataset.
+
+2. **dteday**: The date of the bike rental.
+
+3. **season**: The season in which the bike rental took place (1: spring, 2: summer, 3: fall, 4: winter).
+
+4. **yr**: The year in which the bike rental took place (0: 2011, 1: 2012).
+
+5. **mnth**: The month in which the bike rental took place (1: January to 12: December).
+
+6. **hr**: The hour of the day in which the bike rental took place (0 to 23).
+
+7. **holiday**: Whether the day of the bike rental was a holiday or not (0: Not Holiday, 1: Holiday).
+
+8. **weekday**: The day of the week in which the bike rental took place (0: Sunday to 6: Saturday).
+
+9. **workingday**: Whether the day of the bike rental was a workday or not (0: Not Working day, 1: Working Day).
+
+10. **weathersit**: The weather condition on the day of the bike rental:
+    - 1: Clear, Few clouds, Partly cloudy, Partly cloudy
+    - 2: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist
+    - 3: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds
+    - 4: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog.
+
+11. **temp**: The Normalized temperature in Celsius on the day of the bike rental. The values are divided to 41 (max).
+
+12. **atemp**: The Normalized feeling temperature in Celsius on the day of the bike rental. The values are divided to 67 (max).
+
+13. **hum**: The Normalized humidity on the day of the bike rental. The values are divided to 100 (max).
+
+14. **windspeed**: The Normalized wind speed in meters per second on the day of the bike rental. The values are divided to 67 (max).
+
+15. **casual**: The number of casual users who rented bikes on the day of the bike rental.
+
+16. **registered**: The number of registered users who rented bikes on the day of the bike rental.
+
+17. **cnt**: The total number of users who rented bikes on the day of the bike rental (Casual + Registered).
+
+## Libraries
+
+```{r init, include=T}
+#Libraries Used
+library(ggplot2)
+library(dplyr)
+library(scales)
+library(gridExtra)
+library(grid)
+
+```
+The purpose of each library we've used
+
+1. `ggplot2`: Used for creating visually appealing and customizable data visualizations and plots.
+
+2. `dplyr`: Employed for data manipulation and transformation tasks, such as filtering, summarizing, and grouping data.
+
+3. `scales`: Provides functions for scaling data and formatting labels in plots to make them more interpretable.
+
+4. `gridExtra`: Utilized for combining multiple plots or arranging them in a grid layout within a single visual.
+
+5. `grid`: An underlying graphics package that allows for advanced customization and control over the layout and appearance of plots.
 
 
 
