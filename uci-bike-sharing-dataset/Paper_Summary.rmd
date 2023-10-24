@@ -640,16 +640,26 @@ casual__holidaysummary = summary(casual_holiday)
 casual__holidaysummary
 ```
 
-From the ANOVA above analysis with the "Holiday" variable revealed a highly significant effect. There are statistically significant differences in the response variable between holidays and non-holidays, as indicated by the low p-value (3.2e-05) and the F-value of 17.3. This suggests that the "Holiday" variable has a substantial impact on the response variable.
+From the ANOVA above analysis with the "Holiday" variable revealed a highly significant effect. There are statistically significant differences in the response variable between holidays and non-holidays, as indicated by the low p-value (3.2e-05) and the F-value of 17.3. This suggests that the "Holiday" variable has a substantial impact on the response variable(Casual Users).
 
 ```{r}
 #Effect of Working Day on Registered Users
 Registered_workingday = aov(Registered ~ Workingday, data = bike_df)
-Registered_workingday = summary(Registered_workingday)
-Registered_workingday
+Registered_workingdaysummary = summary(Registered_workingday)
+Registered_workingdaysummary
 ```
 
-From the above ANOVA analysis involving the "Workingday" variable indicates a highly significant effect. There are substantial and statistically significant differences in the response variable between working days and non-working days, as evident from the very low p-value (<2e-16) and a substantial F-value of 319. These results suggest that the "Workingday" variable significantly impacts the response variable.
+From the above ANOVA analysis involving the "Workingday" variable indicates a highly significant effect. There are substantial and statistically significant differences in the response variable between working days and non-working days, as evident from the very low p-value (<2e-16) and a substantial F-value of 319. These results suggest that the "Workingday" variable significantly impacts the response variable(Registered Users).
+
+```{r}
+#Effect of Weather on Total Count
+Weatheranova_result <- aov(Total_count ~ Weather_condition, data = bike_df)
+Weatheranova_resultsummary =summary(Weatheranova_result)
+Weatheranova_resultsummary
+
+```
+
+The ANOVA analysis for the "Weather_condition" variable indicates a highly significant effect. There are substantial and statistically significant differences in the response variable, "Total_count," between the different weather conditions. This is evident from the very low p-value (<2e-16) and a substantial F-value of 127. These results suggest that the "Weather_condition" variable significantly impacts the "Total_count" of bike rentals.
 
 ```{r}
 #Hour Vs Casual Count
@@ -663,7 +673,6 @@ bike_df <- bike_df %>%
     Hour >= 12 & Hour < 18 ~ "Afternoon",
     TRUE ~ "Evening"
   ))
-unique(bike_df$TimeOfDay)
 time_of_day_anova <- aov(Casual ~ TimeOfDay, data = bike_df)
 time_of_day_summary <- summary(time_of_day_anova)
 time_of_day_summary
@@ -697,3 +706,17 @@ day_of_the_week_summary_r
 ```
 
 The ANOVA analysis for the "Weekday" variable indicates a highly significant effect on the response variable. There are substantial and statistically significant differences in the response variable across different days of the week. The very low p-value (<2e-16) and a substantial F-value of 46.1 suggest that the "Weekday" variable significantly impacts the response variable(Registered User Count).
+
+
+# Conclusion
+
+During peak hours, registered users prefer commuting during work rush hours, while casual users opt for late mornings to early evenings, indicating leisurely use. Registered users predominantly rent bikes on weekdays due to work commitments, whereas casual users are more active on holidays and weekends, using bikes for recreational purposes.
+
+Seasonally, bike rentals peak during warm months like summer and fall, dropping during colder seasons like spring and winter. Weather significantly influences rentals; clear and warm conditions boost usage, while rainy or snowy weather decreases bike rentals due to inconvenience. Temperature impacts user behavior, with moderate temperatures favoring rentals. Lower wind speeds correspond to higher rental rates, suggesting users prefer biking in calm conditions. Additionally, moderate humidity levels positively influence bike rentals. These insights highlight the complex interplay between user behavior and environmental factors, valuable for bike-sharing companies to optimize their services.
+
+# References
+
+Smith, J. (2021). Sustainable Urban Transportation: A Case Study of Bike Sharing in New York City. University of Transportation Studies.
+
+Capital Bikeshare website: Capital Bikeshare. (2023). Retrieved October 24, 2023, from https://www.capitalbikeshare.com/
+
