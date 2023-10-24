@@ -54,8 +54,6 @@ the specific seasons that characterized this time frame.
 ## Dataset characteristics
 
 Both hour.csv and day.csv have the following fields, except hr which is not available in day.csv
-	
-
 
 1. **instant**: A unique identifier for each record in the dataset.
 
@@ -95,6 +93,7 @@ Both hour.csv and day.csv have the following fields, except hr which is not avai
 
 17. **cnt**: The total number of users who rented bikes on the day of the bike rental (Casual + Registered).
 
+
 ## Libraries
 
 ```{r init, include=T}
@@ -117,6 +116,7 @@ The purpose of each library we've used
 4.`gridExtra`: The master curator, orchestrating a symphony of plots into seamless visual arrangements. It allows for effortless juxtaposition, enabling viewers to explore multiple facets of data in one comprehensive view.  
 
 5.`grid`: The architect of aesthetics, providing the structural foundation for visuals. With its precise control over layout and appearance, it ensures that every graph is not just informative but also visually appealing, capturing attention and curiosity.
+
 
 # Data Pre-Processing
 **File Reading**
